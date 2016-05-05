@@ -1,0 +1,73 @@
+{% extends "layoutBase.html" %}
+{% block title %}Documentation{% endblock %}
+
+{% block content %}
+    <h1>Index Doc:</h1>
+    <table class="highlight">
+        <thead>
+              <tr>
+                  <th data-field="id">Route</th>
+                  <th data-field="name">Method</th>
+                  <th data-field="price">Desciption</th>
+              </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>
+                    /
+                </td>
+                <td>
+                    GET
+                </td>
+                <td>
+                    documentation
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    /analyzes
+                </td>
+                <td>
+                    GET
+                </td>
+                <td>
+                    Retourne la liste de toutes les analyses
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    /analyzes
+                </td>
+                <td>
+                    POST
+                </td>
+                <td>
+                    Envoie une nouvelle analyse param: "TEXT"
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    /analyzes/id
+                </td>
+                <td>
+                    GET
+                </td>
+                <td>
+                    Retourne les résultats d'une analyse
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    /analyzes/id
+                </td>
+                <td>
+                    DELETE
+                </td>
+                <td>
+                    Supprime une analyse
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "layoutBase.html" %}
+{% block title %}Analyze no°{{ id }}{% endblock %}
+
+{% block content %}
+
+    <h4>Analyses List: </h4>
+
+    <p>
+        {{ results }}
+    </p>
+
+{% endblock %}
+
+{% block javascript %}
+    {{ super() }}
+{% endblock %}
