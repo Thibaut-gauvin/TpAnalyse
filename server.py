@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+
 import sqlite3
-from bottle import route, run, debug, error, TEMPLATE_PATH, jinja2_template as template
+from analyzer import Analyzer
+from bottle import route, run, debug, error, request, TEMPLATE_PATH, jinja2_template as template
+
 TEMPLATE_PATH.append("./views")
 
 
@@ -12,7 +15,7 @@ def documentation():
 
 # Render list of all analyzes
 @route('/analyzes', method='GET')
-def test():
+def show_analyzes():
     conn = sqlite3.connect('analyzes.db')
     c = conn.cursor()
     c.execute("SELECT * FROM analyzes")
@@ -38,6 +41,25 @@ def show_all_analyzes(id):
         return 'This analyzes does not exist !'
     else:
         return template('showAnalyse.html', results=results)
+
+
+# Create new analyze
+@route('/analyzes', method='POST')
+def create_analyze():
+    text = request.POST.get('text', '').strip()
+    analyze = Analyzer(text)
+    analyzed = analyze.parse_text()
+
+    # print analyzed.letters_nb
+
+    conn = sqlite3.connect('analyzes.db')
+    c = conn.cursor()
+    c.execute("INSERT INTO analyzes (analyzed_text,creation_date) VALUES(?,?)", (analyzed.text, analyze.creation_date))
+
+    conn.commit()
+    c.close()
+
+    return template('result.html', analyze=analyzed)
 
 
 # Trow 404 error when page not found
