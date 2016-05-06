@@ -1,16 +1,31 @@
 {% extends "layoutBase.html" %}
-{% block title %}Analyze no°{{ id }}{% endblock %}
+{% block title %}Show Analyzes{% endblock %}
 
 {% block content %}
 
-    <h4>Analyses List: </h4>
+    <h4>They are {{ results|length }} analyses:</h4>
 
-    <p>
-        {{ results }}
-    </p>
+    <table class="highlight">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Text</th>
+                <th>Creation Date</th>
+                <th>Number Of Words</th>
+                <th>Number Of Letters</th>
+                <th>Letters Occurrences</th>
+                <th>Top 5 Words & Occurrences</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for analyze in results %}
+                <tr>
+                    {% for field in analyze %}
+                        <td>{{ field }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-{% endblock %}
-
-{% block javascript %}
-    {{ super() }}
 {% endblock %}

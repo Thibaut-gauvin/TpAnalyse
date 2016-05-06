@@ -2,13 +2,15 @@
 {% block title %}Documentation{% endblock %}
 
 {% block content %}
-    <h1>Index Doc:</h1>
+    <h3>Documentation:</h3>
+
     <table class="highlight">
         <thead>
               <tr>
-                  <th data-field="id">Route</th>
-                  <th data-field="name">Method</th>
-                  <th data-field="price">Desciption</th>
+                  <th>Route</th>
+                  <th>Method</th>
+                  <th>Desciption</th>
+                  <th>Parameters</th>
               </tr>
         </thead>
 
@@ -23,6 +25,9 @@
                 <td>
                     documentation
                 </td>
+                <td>
+                    None
+                </td>
             </tr>
             <tr>
                 <td>
@@ -34,6 +39,9 @@
                 <td>
                     Retourne la liste de toutes les analyses
                 </td>
+                <td>
+                    None
+                </td>
             </tr>
             <tr>
                 <td>
@@ -43,7 +51,12 @@
                     POST
                 </td>
                 <td>
-                    Envoie une nouvelle analyse param: "TEXT"
+                    Analyze a new text
+                </td>
+                <td>
+                    name: text
+                    <br>
+                    type: string
                 </td>
             </tr>
             <tr>
@@ -56,6 +69,11 @@
                 <td>
                     Retourne les résultats d'une analyse
                 </td>
+                <td>
+                    name: id
+                    <br>
+                    type: integer
+                </td>
             </tr>
             <tr>
                 <td>
@@ -66,6 +84,11 @@
                 </td>
                 <td>
                     Supprime une analyse
+                </td>
+                <td>
+                    name: id
+                    <br>
+                    type: integer
                 </td>
             </tr>
         </tbody>
