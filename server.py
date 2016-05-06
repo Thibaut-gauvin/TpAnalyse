@@ -29,11 +29,11 @@ def show_analyzes():
 
 
 # Render given analyze (analyze id)
-@route('/analyzes/<id>', method='GET')
+@route('/analyzes/<id:int>', method='GET')
 def show_all_analyzes(id):
     conn = sqlite3.connect('analyzes.db')
     c = conn.cursor()
-    c.execute("SELECT * FROM analyzes WHERE id = ?", (id))
+    c.execute("SELECT * FROM analyzes WHERE id LIKE ?", (str(id)))
     results = c.fetchall()
     c.close()
 
@@ -47,6 +47,10 @@ def show_all_analyzes(id):
 @route('/analyzes', method='POST')
 def create_analyze():
     text = request.POST.get('text', '').strip()
+
+    if len(text) == 0:
+        return {'message': 'error, you must provide `text` parameter'}
+
     analyze = Analyzer(text)
     analyze = analyze.parse_text()
     analyzed = analyze.format_before_save()
@@ -57,7 +61,28 @@ def create_analyze():
     conn.commit()
     c.close()
 
-    return template('result.html', analyze=analyzed)
+    return analyzed.to_json()
+
+
+# Delete given analyze (analyze id)
+@route('/analyzes/<id:int>', method='DELETE')
+def show_all_analyzes(id):
+    conn = sqlite3.connect('analyzes.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM analyzes WHERE id LIKE ?", (str(id)))
+    results = c.fetchall()
+    c.close()
+
+    if not results:
+        return {'message': 'error, there is no analyzes !'}
+    else:
+        conn = sqlite3.connect('analyzes.db')
+        c = conn.cursor()
+        c.execute("DELETE FROM analyzes WHERE id LIKE ?", (str(id)))
+        conn.commit()
+        c.close()
+
+        return {'message': 'Analyze delete successfully'}
 
 
 # Trow 404 error when page not found

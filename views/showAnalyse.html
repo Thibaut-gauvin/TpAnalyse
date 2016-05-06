@@ -7,11 +7,16 @@
         <h4>Error</h4>
         <p class="red">{{ error }}</p>
     {% else %}
-        <h4>Détails Analyses no xx</h4>
+        <h4>Détails Analyses</h4>
 
-        <p>
-            {{ results }}
-        </p>
+        <div>
+            {% for analyze in results %}
+                {% for field in analyze %}
+                    <p>{{ field }}</p>
+                    <hr>
+                {% endfor %}
+            {% endfor %}
+        </div>
     {% endif %}
 
 {% endblock %}
