@@ -10,7 +10,6 @@ class Analyzer(object):
         self.creation_date = strftime("%m-%d-%Y %H:%M:%S")
         self.text = text
         self.word_count = 0
-        self.longest_word = ""
         self.words_occur = {}
         self.letters_count = 0
         self.letters_occur = {}
@@ -22,8 +21,6 @@ class Analyzer(object):
         for value in (self.text):
             self.word_count+=1
             current_length = len(value)
-            if current_length > len(self.longest_word):
-                self.longest_word = value
             if self.words_occur.has_key(value):
                 self.words_occur[value] = self.words_occur.get(value) + 1
             else:
@@ -34,7 +31,6 @@ class Analyzer(object):
                     self.letters_occur[char] = self.letters_occur.get(char) + 1
                 else:
                     self.letters_occur[char] = 1
-        print "the most longest words is : {}".format(self.longest_word)
         print "the number of words is : {}".format(self.word_count)
         print "the number of letters is : {}".format(self.letters_count)
         self.words_occur = sorted(self.words_occur.items(), key=operator.itemgetter(1))
