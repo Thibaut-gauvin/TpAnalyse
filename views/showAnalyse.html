@@ -3,11 +3,16 @@
 
 {% block content %}
 
-    <h4>Détails Analyses no xx</h4>
+    {% if error is defined %}
+        <h4>Error</h4>
+        <p class="red">{{ error }}</p>
+    {% else %}
+        <h4>Détails Analyses no xx</h4>
 
-    <p>
-        {{ results }}
-    </p>
+        <p>
+            {{ results }}
+        </p>
+    {% endif %}
 
 {% endblock %}
 

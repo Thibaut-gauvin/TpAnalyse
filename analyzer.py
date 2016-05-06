@@ -1,33 +1,54 @@
 # -*- coding: utf-8 -*-
 
 from time import strftime
-
+import operator
 
 class Analyzer(object):
     """Analyze a given text"""
 
     def __init__(self, text):
-        self.creation_date = strftime("%m-%d-%Y %H:%M:%S")
         self.text = text
-        self.words_count = 0
+        self.creation_date = strftime("%m-%d-%Y %H:%M:%S")
         self.words_occur = {}
-        self.letters_nb = 0
-        self.letters_nb_occur = {}
+        self.letters_count = 0
+        self.letters_occur = {}
         self.most_used_words = {}
 
     def parse_text(self):
         """Parse text"""
 
-        clean_text = self.text.split(" ")
-
-        self.words_count = len(clean_text)
+        # Escape the text before any parsing
+        clean_text = self.text.lower().split(" ")
 
         for word in clean_text:
-            self.letters_nb += len(word)
+            self.letters_count += len(word)
 
             if self.words_occur.has_key(word):
                 self.words_occur[word] = self.words_occur.get(word) + 1
             else:
                 self.words_occur[word] = 1
+
+            for char in word:
+                if self.letters_occur.has_key(char):
+                    self.letters_occur[char] = self.letters_occur.get(char) + 1
+                else:
+                    self.letters_occur[char] = 1
+
+        self.words_occur = sorted(self.words_occur.items(), key=operator.itemgetter(1))
+        self.words_occur.reverse()
+
+        self.letters_occur = sorted(self.letters_occur.items(), key=operator.itemgetter(1))
+        self.letters_occur.reverse()
+
+        self.most_used_words = self.words_occur[0:5]
+
+        return self
+
+    def format_before_save(self):
+        """Format Analyzer object before register in database"""
+
+        self.words_occur = ''.join(str(e) for e in self.words_occur)
+        self.letters_occur = ''.join(str(e) for e in self.letters_occur)
+        self.most_used_words = ''.join(str(e) for e in self.most_used_words)
 
         return self
