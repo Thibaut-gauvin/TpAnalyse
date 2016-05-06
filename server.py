@@ -48,16 +48,16 @@ def show_all_analyzes(id):
 def create_analyze():
     text = request.POST.get('text', '').strip()
     analyze = Analyzer(text)
-    analyzed = analyze.parse_text()
+    analyzed = analyze.get_analyse()
 
     # print analyzed.letters_nb
 
-    conn = sqlite3.connect('analyzes.db')
-    c = conn.cursor()
-    c.execute("INSERT INTO analyzes (analyzed_text,creation_date) VALUES(?,?)", (analyzed.text, analyze.creation_date))
+  #  conn = sqlite3.connect('analyzes.db')
+   # c = conn.cursor()
+    #c.execute("INSERT INTO analyzes (analyzed_text,creation_date) VALUES(?,?)", (analyzed.text, analyze.creation_date))
 
-    conn.commit()
-    c.close()
+    #conn.commit()
+    #c.close()
 
     return template('result.html', analyze=analyzed)
 
