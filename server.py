@@ -54,7 +54,7 @@ def create_analyze():
 
     conn = sqlite3.connect('analyzes.db')
     c = conn.cursor()
-    c.execute("INSERT INTO analyzes (analyzed_text,creation_date) VALUES(?,?)", (analyzed.text, analyze.creation_date))
+    c.execute("INSERT INTO analyzes (analyzed_text, creation_date, words_occur, letters_nb) VALUES(?,?,?,?)", (analyzed.text, analyze.creation_date, analyze.words_occur, analyze.letters_nb))
 
     conn.commit()
     c.close()
