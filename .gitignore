@@ -1,2 +1,8 @@
-analyzes.db
+# Exclude auto-generated file
 *.pyc
+img/letter/*
+img/words/*
+analyzes.db
+
+# Keep all .gitkeep files
+!.gitkeep

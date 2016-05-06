@@ -2,6 +2,7 @@
 
 import sqlite3
 from analyzer import Analyzer
+from graphic import Graphic
 from bottle import route, run, debug, error, request, TEMPLATE_PATH, jinja2_template as template
 
 TEMPLATE_PATH.append("./views")
@@ -22,10 +23,7 @@ def show_analyzes():
     results = c.fetchall()
     c.close()
 
-    if not results:
-        return 'There is no analyzes !'
-    else:
-        return template('showAnalyses.html', results=results)
+    return template('showAnalyses.html', results=results)
 
 
 # Render given analyze (analyze id)
@@ -52,12 +50,17 @@ def create_analyze():
         return {'message': 'error, you must provide `text` parameter'}
 
     analyze = Analyzer(text)
-    analyze = analyze.parse_text()
+    analyzed = analyze.parse_text()
+
+    graphic_fabric = Graphic(analyzed.letters_occur, analyzed.most_used_words, analyzed.letters_count)
+    graphic_fabric.graph_letter_occurrence()
+    graphic_fabric.graph_words_occurrence()
+
     analyzed = analyze.format_before_save()
 
     conn = sqlite3.connect('analyzes.db')
     c = conn.cursor()
-    c.execute("INSERT INTO analyzes (analyzed_text, creation_date, words_occur, letters_count, letters_occur, most_used_words) VALUES(?,?,?,?,?,?)", (analyzed.text, analyzed.creation_date, analyzed.words_occur, analyzed.letters_count, analyzed.letters_occur, analyzed.most_used_words))
+    c.execute("INSERT INTO analyzes (analyzed_text, creation_date, words_occur, letters_count, letters_occur, most_used_words, letter_occur_graph_name, words_occur_graph_name) VALUES(?,?,?,?,?,?,?,?)", (analyzed.text, analyzed.creation_date, analyzed.words_occur, analyzed.letters_count, analyzed.letters_occur, analyzed.most_used_words, graphic_fabric.letter_occur_graph_name, graphic_fabric.words_occur_graph_name))
     conn.commit()
     c.close()
 

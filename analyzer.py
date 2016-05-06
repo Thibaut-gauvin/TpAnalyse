@@ -5,6 +5,7 @@ import operator
 import re
 import json
 
+
 class Analyzer(object):
     """Analyze a given text"""
 
@@ -19,14 +20,11 @@ class Analyzer(object):
     def parse_text(self):
         """Parse text"""
 
-        # format string
+        # Format string
         escaped_text = re.sub('[^A-Za-z0-9]+', ' ', self.text)
         clean_text = escaped_text.lower().split(" ")
 
-        print(clean_text)
-
         for word in clean_text:
-            print(word)
             self.letters_count += len(word)
 
             if self.words_occur.has_key(word):
@@ -51,6 +49,7 @@ class Analyzer(object):
         return self
 
     def to_json(self):
+        """Convert Analyze to json format"""
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
     def format_before_save(self):
